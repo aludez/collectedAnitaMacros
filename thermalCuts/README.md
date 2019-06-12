@@ -16,9 +16,3 @@ doTMVAMC.C -- use the signal and background trees to run the TMVA
 fillTMVA.C -- add TMVA scores to the TMVA trees 
 fitToEff.C -- use the TMVA output to estimate cut efficiency
 
-Skeleton of necessary procedure for an analysis:
--run processAll and doSim over all events and MC events
--makeTMVATrees for all of the anitaEventSummary files you generated
--doTMVAMC using these TMVA trees
--fill those trees with the TMVA scores
--use passing events for clustering, etc.
