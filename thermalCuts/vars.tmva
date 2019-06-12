@@ -1,0 +1,56 @@
+mapPeak @ mostImpulsivePeak(2).value
+avgPeak @ mostImpulsivePeak(2).antennaPeakAverage 
+decoHilbertPeak @ mostImpulsiveDeconvolvedFiltered(2).peakHilbert 
+coherentHilbertPeak @ mostImpulsiveCoherentFiltered(2).peakHilbert 
+peakDiff @ mostImpulsivePeak(2).antennaPeakAverage - mostImpulsiveCoherentFiltered(2).peakHilbert
+decoImpulsivity @ mostImpulsiveDeconvolvedFiltered(2).impulsivityMeasure 
+coherentImpulsivity @ mostImpulsiveCoherentFiltered(2).impulsivityMeasure 
+impulsivityDiff @ pow(mostImpulsiveDeconvolvedFiltered(2).impulsivityMeasure,2) - pow(mostImpulsiveCoherentFiltered(2).impulsivityMeasure,2)
+
+decoLinearPolFraction @ mostImpulsiveDeconvolvedFiltered(2).linearPolFrac() 
+cohLinearPolFraction @ mostImpulsiveCoherentFiltered(2).linearPolFrac() 
+decoInstLinearPolFraction @ mostImpulsiveDeconvolvedFiltered(2).instantaneousLinearPolFrac()
+cohInstLinearPolFraction @ mostImpulsiveCoherentFiltered(2).instantaneousLinearPolFrac()
+totalLinPolFrac @ (mostImpulsiveDeconvolvedFiltered(2).linearPolFrac() + mostImpulsiveCoherentFiltered(2).linearPolFrac() + mostImpulsiveDeconvolvedFiltered(2).instantaneousLinearPolFrac() + mostImpulsiveCoherentFiltered(2).instantaneousLinearPolFrac())/4.
+decoInstTotalPolFraction @ mostImpulsiveDeconvolvedFiltered(2).instantaneousTotalPolFrac()
+cohInstTotalPolFraction @ mostImpulsiveCoherentFiltered(2).instantaneousTotalPolFrac()
+
+powerDiff @ (mostImpulsiveDeconvolvedFiltered(2).peakHilbert/sqrt(mostImpulsiveDeconvolvedFiltered(2).totalPower)) - (mostImpulsiveCoherentFiltered(2).peakHilbert/sqrt(mostImpulsiveCoherentFiltered(2).totalPower))
+altDecoImpulsivity @ mostImpulsiveDeconvolvedFiltered(2).fracPowerWindowGradient()
+altCoherentImpulsivity @ mostImpulsiveCoherentFiltered(2).fracPowerWindowGradient()
+altImpulsivityFrac @ mostImpulsiveCoherentFiltered(2).fracPowerWindowGradient()/mostImpulsiveDeconvolvedFiltered(2).fracPowerWindowGradient()
+
+instCohPolAngle @ mostImpulsiveCoherentFiltered(2).instantaneousLinearPolAngle()
+instDecoPolAngle @ mostImpulsiveDeconvolvedFiltered(2).instantaneousLinearPolAngle()
+
+
+lowPowerTop  @ flags.topPower[0]
+highPowerTop @ flags.topPower[1]
+allPowerTop  @ flags.topPower[2]
+lowPowerBot  @ flags.middleOrBottomPower[0]
+highPowerBot @ flags.middleOrBottomPower[1]
+allPowerBot  @ flags.middleOrBottomPower[2]
+
+botToTopRatioH @ flags.maxBottomToTopRatio[0]
+botToTopRatioV @ flags.maxBottomToTopRatio[1]
+
+polAngle @ TMath::RadToDeg() * TMath::ATan(h_component/e_component)/2
+
+theta @ mostImpulsivePeak(2).theta
+phi @ mostImpulsivePeak(2).phi
+pol @ mostImpulsivePolAsInt(2)
+ind @ mostImpulsiveInd(2)
+cohsnr @ mostImpulsiveCoherentFiltered(2).snr
+snr @ mostImpulsiveDeconvolvedFiltered(2).snr
+anita_latitude @ anitaLocation.latitude
+anita_longitude @ anitaLocation.longitude
+anita_altitude @ anitaLocation.altitude
+anita_heading @ anitaLocation.heading
+
+isWais @ (flags.pulser == 1 || flags.pulser == 5) && (abs(FFTtools::wrap(mostImpulsivePeak(2).phi - wais.phi,360,0)) < 5 && abs(FFTtools::wrap(mostImpulsivePeak(2).theta - wais.theta,360,0)) < 2.5)
+
+weight @ mc.weight @ F @ 1 
+energy @ mc.energy @ F @ 1 
+run @ run @ F @ 1 
+eventNumber @ int(eventNumber/10000) * 10000 @ I @ 1 
+lastFewDigits @ eventNumber%10000 @ F @ 1 
